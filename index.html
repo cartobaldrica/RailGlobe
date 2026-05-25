@@ -18,9 +18,10 @@
                 <p><b>Table of contents:</b><br>
                     <a class="toc" href="#intro">Introduction</a><br>
                     <a class="toc" href="#stories">Rail Stories</a><br>
-                    <a class="toc" href="#about">About</a><br>
+                    <a class="toc" href="#about">More about this map</a><br>
                     <a class="toc" href="#how">How this map was made</a><br>
                     <a class="toc" href="#download">Download Data</a><br>
+                    <p><i>Updated May 2026</i></p>
                 </p>
             </div>
             <div id="intro">
@@ -67,61 +68,29 @@
             <div id="about">
                 <h2 id="stories">More about this map</h2>
                 <div id="map-content">
-                    <p><b class="highlight">What this map shows:</b></p>
-                    <p>Global passenger rail stops and global railways, which include passenger, freight, narrow-gauge, and disused railways.</p>
+                    <p><b class="highlight">What this map shows:</b> Global passenger rail stops and global railways, which include passenger, freight, narrow-gauge, and disused railways.</p>
                     <p>These data were collected from OpenStreetMap, a crowd-sourced source of global map data. As such, they are not comprehensive, though for the purposes of the map provide a general portrait of global rail. There are also some oddities and inconsistencies, and that add flavor. For example, peat railroads can be seen in Ireland. More information can be found in the <a href="#how">how this map was made</a> section of the site.</p>
                 </div>
                 <div id="map-not-content">
-                    <p><b class="highlight">What this map does not show:</b></p>
-                    <p>Currently, the map excludes light rail, streetcars, metro systems, and other forms of local transit. These may be added in the future.</p>
+                    <p><b class="highlight">What this map does not show:</b> Currently, the map excludes light rail, streetcars, metro systems, and other forms of local transit. These may be added in the future.</p>
                 </div>
             </div>
 
             <div id="how-to">
                 <h2 id="how">How this map was made</h2>
-                <p>Here I describe step-by-step how this map was made. While I have taken care to make the language accessible, and describe my process in detail, I assume some familiarity with geospatial data and cartography. If you just are intersted in accessing our data, check out the <a href="#download">download</a> section.</p>
-                <p>This map was created using a variety of free and open-source (FOSS) data and technologies, including <a href="https://www.openstreetmap.org/#map=3/39.84/-91.93">OpenStreetMap (OSM)</a> and <a href="https://overpass-turbo.eu/">Overpass</a> (the OSM API), <a href="https://github.com/mocnik-science/osm-python-tools">OSMPythonTools</a>, <a href="https://qgis.org/">QGIS</a>, <a href="https://protomaps.com/">ProtoMaps</a>, <a href="https://docs.protomaps.com/pmtiles/">PMTiles</a>, <a href="https://github.com/felt/tippecanoe">TippeCanoe</a>, and <a href="https://maplibre.org/maplibre-gl-js/docs/">MapLibre</a>.</p>
-                <p>Rail globe is primarily comprised to two datasets, passenger stops and railways.</p>
-                <p><b>Passenger Stop Data</b></p>
-                <p>Passenger stops were acquired using a custom Python script built using the OSMPythonTools library. The script goes country-by-country searching for railway stations (<code>railway=station</code> within OSM), and excluding a variety of other station types, such as light rail, tram, monorail, and subway. While these may be added in the future, they were deemed beyond scope for this iteration of the project.</p>
-                <p>The script creates a .json file with all the passenger stops. This file was then brought into QGIS, and many of the attribute fields were removed to reduce file size. That said, the diversity of languages and information about the passenger stops in the fully dataset is amazing, and there provide useful insights. For the purposes of this project however, a reduction of file size to reduce load-time in the browser was the priority.</p>
-                <p>Finally, the stop data were converted into a pmtiles file using tippecanoe for seamless viewing in the browser.</p>
-                <i>Step-by-Step:</i>
-                <ol>1. Extract data using the <a href="data/processing/stops_scraper.py" download>stops_scraper.py</a> script.</ol>
-                <ol>2. Remove irrelevant fields from .json.</ol>
-                <ol>3. Convert from .json to .pmtiles using tippecanoe using the following parameters: <br><code>tippecanoe -z11 -Z2 -B6 --projection=EPSG:4326 -o rail_stops.pmtiles -l stops rail_stops.geojson.</code></ol>
-                <p><b>Railway Data</b></p>
-                <p>Railway data were acquired through ProtoMaps, which aggregates OSM data into a single file that can be queried. Due to the amount of railways across the globe, it was useful to have a straightforward way to make simple queries on a global scale. Unlike the passenger stops, the railway data represent the <code>>railway=rail</code> with no exclusions.</p>
-                <p>Within protomaps, rail is only visible beginning at zoom 12, and at this level much of the hyperlocal detail is excluded—acceptable for our purpose. Protomaps also uses different attribute tags, with rail identifiable using <code>kind=rail</code>. To begin the process, I generated a protomaps file at zoom level 12, then extracted railways from the file. This produced a .pmtiles file which I then converted into .json and simplified to 5% of nodes. This file was then converted back into a .pmtiles file.</p>
-                <i>Step-by-Step:</i>
-                <ol>1. Extract protomaps full-world file with a min-zoom 12 (which is the zoom when railroads appear), using the <a href="https://github.com/protomaps/PMTiles">.pmtiles</a> executable. This Produces a file approx. 10 GB:
-                <code>./pmtiles extract https://build.protomaps.com/20260422.pmtiles planet_z12.pmtiles —minzoom=12 --maxzoom=12</code></ol>
-                <ol>2. Filter railways using the <a href="https://github.com/felt/tippecanoe#tile-join">tile-join</a> plugin of tippecanoe:
-                <code>tile-join -j '{"*":["all",["==","kind","rail"]]}'  -f -o rail.pmtiles planet_z12.pmtiles</code></ol>
-                <ol>3. Extract a .json file:
-                    <code>tippecanoe-decode rail.pmtiles -c > rail.json</code></ol>
-                <ol>4. Simplify rail.json using <a href="https://mapshaper.org/">mapshaper</a> to 5% using the Douglas-Peucker algorithm. This will make it load much faster.</ol>
-                <ol>5. Delete all but the first 5 attribute fields.</ol>
-                <ol>6. While these data are quite comphrensive, there are some important features missing. Specifically, narrow-gauge railways, and disused railways, which are both important parts of the story.
-                    These supplemental data were acquired using <a href="https://overpass-turbo.eu/">overpass-turbo</a>.
-                    The query for narrow-gauge rails, with the interface zoomed out to the whole globe, was: <code>[out:json][timeout:500]; nwr["railway"="narrow_gauge"]({{bbox}}); out geom;</code>. For disused railways, the query was: <code>[out:json][timeout:500]; nwr["railway"="disused"]({{bbox}}); out geom;</code></ol>
-                <ol>7. After generating the data, export each query as a .geojson.</ol>
-                <ol>8. Simplify each .geojson using  <a href="https://mapshaper.org/">mapshaper</a> to 5% using the Douglas-Peucker algorithm..</ol>
-                <ol>9. In QGIS, add a field named "kind" for each file. For the narrow_gauge railways, set the value to "ng", for the disused railways, set the value to "du". This will allow these subtypes to be stylized differently than the main rail.</ol>
-                <ol>11. Copy all features from both files into the rail.json file.</ol>
-                <ol>12. Delete unnecessary attributes from the file. We remved everything except the "fid" and "kind" attributes.  It is now ready to be converted!</ol>
-                <ol>13. Convert the rail.json file into .pmtiles:
-                <code>tippecanoe -z10 -Z2 --coalesce-densest-as-needed --projection=EPSG:4326 -o rail_routes.pmtiles -l rail rail_routes.geojson</code></ol>
-                <ol>14. The .pmtiles file is now ready to use!</code></ol>
+                <p>Detailed information on how this map was made is available on the project's <a href="https://github.com/cartobaldrica/RailGlobe">GitHub page</a>.</p>
             </div>
             <div id="download-data">
                 <h2 id="download">Download Data</h2>
-                <p>Our data are available to download here in GeoParquet format.</p>
+                <p>Our data are available to download in GeoParquet format.</p>
                 <p><b><a href="data/processing/railroads.parquet" download>railroads.parquet (~80 mb)</a></b></p>
-                <p>The passenger stop data with all attributes included. Note: these data are generalized to be usable up to zoom level 10.</p>
+                <p>The railroad data with all attributes included. Note: these data are generalized to be usable up to zoom level 10.</p>
                 <p><b><a href="data/processing/rail_stops.parquet" download>rail_stops.parquet (~4 mb)</a></b></p>
                 <p>The passenger stop data with all attributes included.</p>
                 <p></p>
+            </div>
+            <div id="credits">
+                RailGlobe was created by CartoBaldrica. Last updated May, 2026.
             </div>
         </div>
         <div id='map'></div>
