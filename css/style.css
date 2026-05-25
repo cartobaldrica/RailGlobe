@@ -1,0 +1,85 @@
+/*FONT LOADING*/
+@font-face {
+  font-family: "Roboto";
+  src:
+    url("fonts/RobotoMono.woff2")
+}
+
+body{
+  font-family:"Roboto";
+  color:#1d1d2f;
+}
+h1{
+  font-size:50px;
+}
+a{
+  text-decoration: underline;
+  font-weight:bold;
+  color:#1d1d2f;
+}
+code{
+  background-color:#efeff5;
+}
+.emphasis{
+  font-size:24px;
+  font-weight:bold;
+}
+.highlight{
+  background-color: #b3b3cc;
+}
+
+.rail-story{
+  font-family: "Roboto";  
+  font-weight:bold;
+  font-size:20px;
+  margin-bottom:5px;
+}
+.place-button{
+  font-size:14px;
+}
+.place-button, .toc:hover{
+  cursor:pointer;
+  background-color: #b3b3cc;
+}
+.legend{
+  font-family: "Roboto";  
+  background:#d1d1e0;
+  padding:10px;
+  margin-left:25px;
+  margin-bottom:25px;
+}
+.legend p {
+  margin:0;
+}
+.use-rail{
+  color:#8585ad;
+}
+.disused-rail{
+  color:#ffffff;
+}
+/*RESPONSIVE DESIGN*/
+@media screen and (min-width: 768px) {
+  #sidebar{
+    width: 35vw; 
+    height: 100vh;
+    padding-left:15px;
+    float:left;
+  }
+  #map{
+    width: 60vw; 
+    height: 100vh;
+    right:0;
+    position:fixed;
+    z-index:100;
+  }
+}
+@media screen and (max-width: 767px) {
+  #sidebar{
+    width: 100vw; 
+  }
+  #map{
+    width: 100vw; 
+    height: 100vh;
+    margin-top:50px;
+  }
+}
