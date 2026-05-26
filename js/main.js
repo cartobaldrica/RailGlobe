@@ -1,19 +1,30 @@
 (function(){
+    //create pmtiles protocol
     const protocol = new pmtiles.Protocol();
+    //assign protocol to map
     maplibregl.addProtocol('pmtiles', protocol.tile);
-
+    //get initial file URL
     const PMTILES_URL = 'data/earth.pmtiles';
     const p = new pmtiles.PMTiles(PMTILES_URL);
 
-    // this is so we share one instance across the JS code and the map renderer
+    //assign specific file protocol to the map
     protocol.add(p);
 
+    //determine container based on screen size
+    let c;
+    if (window.innerWidth <= 767)
+        c = 'map-m';
+    else
+       c = 'map-f';
+
+    //function to create map object
     p.getHeader().then(h => {
         let map = new maplibregl.Map({
-            container: 'map',
+            container: c,
             zoom: h.minZoom,
             maxZoom:10.5,
             minZoom:2.5,
+            scrollZoom:false,
             center: [h.centerLon, h.centerLat],
             style: {
                 version: 8,
@@ -37,6 +48,11 @@
                         type: 'vector',
                         url: `pmtiles://${'data/rail_stops_simplified.pmtiles'}`,
                         attribution: '© <a href="https://openstreetmap.org/copyright">OpenStreetMap</a>'
+                    },
+                    'boundaries': {
+                        type: 'vector',
+                        url: `pmtiles://${'data/boundary_lines.pmtiles'}`,
+                        attribution: 'Natural Earth'
                     }
                 },
                 projection: {
@@ -70,7 +86,7 @@
                         'type': 'line',
                         'layout':{
                             'line-sort-key':5,
-                            'line-cap':'round'
+                            'line-cap':'round',
                         },
                         'paint': {
                             'line-color':"#8585ad"
@@ -119,6 +135,21 @@
                         'paint':{
                             'text-color':"#1e1e2f"
                         }
+                    },
+                    {
+                        'id': 'boundaries',
+                        'source': 'boundaries',
+                        'source-layer': 'boundaries',
+                        'type': 'line',
+                        'layout':{
+                            'line-sort-key':5,
+                            'line-cap':'round',
+                            'visibility':'none'
+                        },
+                        'paint': {
+                            'line-color':"#ffffff",
+                            'line-dasharray':[2,4]
+                        }
                     }
                 ]
             }
@@ -131,7 +162,9 @@
             map.scrollZoom.disable();
             map.setZoom(2)
         }
-
+        //add fullscreen button
+        map.addControl(new maplibregl.FullscreenControl());        
+        //add legend
         class legendControl extends maplibregl.LogoControl{
             onAdd(map) {
                 this._map = map;
@@ -149,8 +182,7 @@
         map.addControl(new legendControl({
             position: "bottom-left"
         }))
-        
-
+        //zoom control for place buttons
         document.querySelectorAll('.place-button').forEach(function(elem){
             elem.addEventListener('click',function(){
                 map.flyTo({

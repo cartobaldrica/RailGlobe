@@ -11,17 +11,18 @@
         <link href='css/style.css' rel='stylesheet'/>
     </head>
     <body>
+        <p id="scroll-indicator">&#8681</p>
         <div id='sidebar'>
             <h1 class="highlight">RAIL GLOBE</h1>
             <h2>What if we lived in a world where everyone travelled by rail?</h2>
             <div id="toc">
-                <p><b>Table of contents:</b><br>
+                <p><b class="highlight">Table of contents:</b><br>
                     <a class="toc" href="#intro">Introduction</a><br>
+                    <a class="toc" id="map-m-toc" href="#map-m">Map<br></a>
                     <a class="toc" href="#stories">Rail Stories</a><br>
                     <a class="toc" href="#about">More about this map</a><br>
                     <a class="toc" href="#how">How this map was made</a><br>
                     <a class="toc" href="#download">Download Data</a><br>
-                    <p><i>Updated May 2026</i></p>
                 </p>
             </div>
             <div id="intro">
@@ -31,13 +32,14 @@
                     <p><i>Explore the map to see how rail is spread across the globe.</i></p>
                 </div>
             </div>
+            <div id='map-m'></div>
             <div id="rail-stories">
                 <h2 id="stories">Rail Stories</h2>
                 <div>
                     <p class="rail-story"><b class="highlight">Rail and Labor</b></p>
                     <a class="place-button" data-zoom=5 data-lon=-3.51 data-lat=39.82>Zoom To Spain</a>
                     <a class="place-button" data-zoom=8 data-lon=-73.188 data-lat=40.815>Zoom To Long Island</a>
-                    <p>People are essential to railroads, and therefore to have good rail, it is necessary to have good people who are well compensated. The widespread practice of devolution and privitization of many national railways is a threat to worker power, and therefore the quality of service a railroad can provide. Over the past few years, rail labor unions have bravely undertaken large actions to improve rail safety and their working conditions. In January, 2026, Spain's largest train driver's union called a <a href="https://www.reuters.com/world/spanish-train-drivers-call-strike-after-deadly-derailments-2026-01-21/">three-day strike</a> in response to recent high speed derailments, demanding the implementation of stricter rail safety measures. More recently, five unions representing commuter rail on Long Island, <a href="https://www.democracynow.org/2026/5/18/headlines/long_island_rail_road_workers_strike_after_wages_fail_to_keep_pace_with_inflation">struck</a> to demand wage increases to keep up with the pace of inflation.</p>
+                    <p>People are essential to railroads, and therefore to have good rail, it is necessary to have good people who are well compensated. The widespread practice of devolution and privitization of many national railways is a threat to worker power. Historically, across the globe, rail unions have been powerful members of the labor movement, particularly in the United States, India, and the United Kingdom. More recently, rail labor unions have bravely undertaken large actions to improve rail safety and their working conditions. In January, 2026, Spain's largest train driver's union called a <a href="https://www.reuters.com/world/spanish-train-drivers-call-strike-after-deadly-derailments-2026-01-21/">three-day strike</a> in response to recent high speed derailments, demanding the implementation of stricter rail safety measures. More recently, five unions representing commuter rail on Long Island, <a href="https://www.democracynow.org/2026/5/18/headlines/long_island_rail_road_workers_strike_after_wages_fail_to_keep_pace_with_inflation">struck</a> to demand wage increases to keep up with the pace of inflation.</p>
                 </div>
                 <div>
                     <p class="rail-story"><b class="highlight">An Integrated Timetable</b></p>
@@ -53,8 +55,9 @@
                 </div>
                 <div>
                     <p class="rail-story"><b class="highlight">Electrification</b></p>
-                    <a class="place-button" data-zoom=4 data-lon=76.77 data-lat=21.24>Zoom To</a>
-                    <p>India's massive rail network is over 99% electrified. The electrification of railways is essential for their decarbonization, and is far more efficient than the use of diesel. India has been electrifying its rail since the early 20th century.</p>
+                    <a class="place-button" data-zoom=4 data-lon=76.77 data-lat=21.24>Zoom To India</a>
+                    <a class="place-button" data-zoom=3 data-lon=-97.29 data-lat=38.65>Zoom To the U.S.</a>
+                    <p> The electrification of railways is essential for their decarbonization, and is far more efficient than the use of diesel. Electrification is not new technology, and has been widely utilized in several large railway networks. For example, India's massive rail network is over 99% electrified, and the country has been electrifying its rail since the early 20th century. Conversely, of the 220,044 km of the the United States railway network is less than 1% electrified.</p>
                     <p class="read-more">Read more about the electrification of Indian rail: <a href="https://ejatlas.org/conflict/indigenas-de-calakmul-contra-el-tren-maya">EJAtlas</a></p>
                 </div>
                 <div>
@@ -90,10 +93,10 @@
                 <p></p>
             </div>
             <div id="credits">
-                RailGlobe was created by CartoBaldrica. Last updated May, 2026.
+                RailGlobe was created by CartoBaldrica, using data from <a href="https://www.openstreetmap.org">OpenStreeMap</a> and <a href="https://www.naturalearthdata.com/">Natural Earth</a>. Last updated May, 2026.
             </div>
         </div>
-        <div id='map'></div>
+        <div id='map-f'></div>
         <!--put your initial page content here-->
         
         <!--you can also use this space for internal scripts;
