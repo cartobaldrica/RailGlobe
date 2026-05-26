@@ -23,7 +23,7 @@
             container: c,
             zoom: h.minZoom,
             maxZoom:10.5,
-            minZoom:2.5,
+            minZoom:3,
             scrollZoom:false,
             center: [h.centerLon, h.centerLat],
             style: {
@@ -114,10 +114,10 @@
                             'circle-sort-key':15
                         },
                         'paint': {
-                            'circle-color': '#e0e0eb',
-                            'circle-radius':3,
-                            'circle-stroke-color': '#1f1f2e',
-                            'circle-stroke-width':1.5
+                            'circle-color': '#666699',
+                            'circle-radius':2,
+                            'circle-stroke-color': '#ffffff',
+                            'circle-stroke-width':0.5
                         }
                     },
                     {
@@ -127,13 +127,15 @@
                         'type': 'symbol',
                         'layout':{
                             'text-field':['get', 'name'],
-                            'text-size':12,
+                            'text-size':10,
                             "text-variable-anchor": ["left"],
                             "text-variable-anchor-offset": [ "left", [0.3,-0.5]],
-                            "text-font":["Roboto Mono Bold","monospace"] 
+                            "text-font":["Roboto Mono Bold","monospace"],
                         },
                         'paint':{
-                            'text-color':"#1e1e2f"
+                            'text-color':"#1e1e2f",
+                            'text-halo-color':'#ffffff',
+                            'text-halo-width':1
                         }
                     },
                     {
@@ -179,9 +181,9 @@
                 this._map = undefined;
             }
         }
-        map.addControl(new legendControl({
+        /*map.addControl(new legendControl({
             position: "bottom-left"
-        }))
+        }))*/
         //zoom control for place buttons
         document.querySelectorAll('.place-button').forEach(function(elem){
             elem.addEventListener('click',function(){
