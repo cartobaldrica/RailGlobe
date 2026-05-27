@@ -181,9 +181,9 @@
                 this._map = undefined;
             }
         }
-        /*map.addControl(new legendControl({
+        map.addControl(new legendControl({
             position: "bottom-left"
-        }))*/
+        }))
         //zoom control for place buttons
         document.querySelectorAll('.place-button').forEach(function(elem){
             elem.addEventListener('click',function(){
